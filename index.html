@@ -1,34 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <title>Event Management System</title>
-    </head>
-    <body>
-        <div class="div-box">
-            <span class="borderline"></span>
-            <form action="">
-                <h2>Sign In</h2>
-                <div class="inputBox-div">
-                    <input type="text" required>
-                    <span>User Name</span>
-                    <i></i>
-                </div>
-                <div class="inputBox-div">
-                    <input type="password" required>
-                    <span>Password</span>
-                    <i></i>
-                </div>
-                <div class="forgetPassSignUp">
-                    <a href="#">Forget Password</a>
-                    <a href="#">Sign Up</a>
-                </div>
-                <input type="submit" value="Login">
-            </form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management System</title>
+    <link rel="stylesheet" href="indexStyle.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">E</div>
+                <div class="logo-text">EventFlow</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="signIn.html" class="cta-button">Sign In</a>
+            <button class="mobile-menu-btn">☰</button>
         </div>
+    </nav>
 
-        <script src="script.js"></script>
-    </body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Streamline Your Event Management</h1>
+            <p>From intimate gatherings to large-scale conferences, EventFlow provides everything you need to plan, manage, and execute successful events. Join thousands of event professionals who trust our platform.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">Start Planning Today</a>
+                <a href="#" class="btn-secondary">Watch Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2>Everything You Need to Succeed</h2>
+        <p class="features-subtitle">Comprehensive tools designed for modern event management professionals</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Smart Event Planning</h3>
+                <p>Intuitive drag-and-drop interface for creating detailed event schedules, managing venues, and coordinating with vendors. AI-powered suggestions help optimize your planning process.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎫</div>
+                <h3>Advanced Ticketing System</h3>
+                <p>Sell tickets online with customizable pricing tiers, early bird discounts, and group rates. Integrated payment processing with real-time sales analytics and automated confirmations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Attendee Management</h3>
+                <p>Comprehensive attendee database with check-in capabilities, badge printing, networking features, and personalized communication tools to enhance the participant experience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Real-time Analytics</h3>
+                <p>Detailed insights into ticket sales, attendee engagement, revenue tracking, and post-event analysis. Make data-driven decisions to improve future events.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Event App</h3>
+                <p>Custom-branded mobile app for attendees with schedules, speaker profiles, networking opportunities, live polls, and push notifications for important updates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Seamless Integrations</h3>
+                <p>Connect with popular tools like Zoom, Slack, Mailchimp, and CRM systems. API access for custom integrations and automated workflows to streamline operations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <h3>25K+</h3>
+                <p>Events Managed</p>
+            </div>
+            <div class="stat-item">
+                <h3>2M+</h3>
+                <p>Tickets Sold</p>
+            </div>
+            <div class="stat-item">
+                <h3>99.9%</h3>
+                <p>Uptime</p>
+            </div>
+            <div class="stat-item">
+                <h3>24/7</h3>
+                <p>Support</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <h2>How EventFlow Works</h2>
+        <p class="how-it-works-subtitle">Get your event up and running in three simple steps</p>
+        <div class="steps-container">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Create Your Event</h3>
+                <p>Set up your event details, configure ticketing options, and customize your event page with our intuitive builder. Add speakers, schedules, and venue information.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Promote & Sell</h3>
+                <p>Launch your marketing campaigns with built-in email tools, social media integration, and SEO-optimized event pages. Track registrations and manage attendee communications.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Execute & Analyze</h3>
+                <p>Manage check-ins, engage attendees with live features, and gather feedback. Access comprehensive analytics to measure success and improve future events.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Transform Your Events?</h2>
+            <p>Join thousands of event professionals who have streamlined their workflow and increased attendee satisfaction with EventFlow. Start your free trial today.</p>
+            <a href="#" class="btn-primary">Start Your Free Trial</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Platform</h4>
+                <a href="#">Event Planning</a>
+                <a href="#">Ticketing System</a>
+                <a href="#">Mobile App</a>
+                <a href="#">Analytics</a>
+                <a href="#">Integrations</a>
+            </div>
+            <div class="footer-section">
+                <h4>Solutions</h4>
+                <a href="#">Corporate Events</a>
+                <a href="#">Conferences</a>
+                <a href="#">Workshops</a>
+                <a href="#">Networking Events</a>
+                <a href="#">Virtual Events</a>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <a href="#">Help Center</a>
+                <a href="#">Event Planning Guide</a>
+                <a href="#">API Documentation</a>
+                <a href="#">Webinars</a>
+                <a href="#">Case Studies</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Press</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EventFlow. All rights reserved. Empowering event professionals worldwide.</p>
+        </div>
+    </footer>
+</body>
 </html>

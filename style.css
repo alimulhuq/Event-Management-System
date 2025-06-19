@@ -83,7 +83,7 @@ body{
         transform: rotate(360deg);
     }
 }
-.div-box form{
+.div-box form, .reg-data-div form{
     position: absolute;
     inset: 4px;
     background-color: #222;
@@ -93,18 +93,18 @@ body{
     display: flex;
     flex-direction: column;
 }
-.div-box form h2{
+.div-box form h2, .reg-data-div form h2{
     color: #fff;
     font-weight: 500;
     text-align: center;
     letter-spacing: 0.1em;
 }
-.div-box form .inputBox-div{
+.div-box form .inputBox-div, .reg-data-div form .reg-data-input{
     position: relative;
     width: 300px;
     margin-top: 35px;
 }
-.div-box form .inputBox-div input{
+.div-box form .inputBox-div input, .reg-data-div form .reg-data-input input{
     position: relative;
     width: 100%;
     padding: 20px 10px 10px;
@@ -118,7 +118,7 @@ body{
     transition: 0.5s;
     z-index: 10;
 }
-.div-box form .inputBox-div span{
+.div-box form .inputBox-div span, .reg-data-div form .reg-data-input span{
     position: absolute;
     left: 0;
     padding: 20px 0px 10px;
@@ -129,12 +129,14 @@ body{
     transition: 0.5s;
 }
 .div-box form .inputBox-div input:valid ~ span,
-.div-box form .inputBox-div input:focus ~ span{
+.div-box form .inputBox-div input:focus ~ span,
+.reg-data-div form .reg-data-input input:valid ~ span,
+.reg-data-div form .reg-data-input input:focus ~ span{
     color: #fff;
     font-size: .75em;
     transform: translateY(-34px);
 }
-.div-box form .inputBox-div i{
+.div-box form .inputBox-div i, .reg-data-div form .reg-data-input i{
     position: absolute;
     left: 0;
     bottom: 0;
@@ -147,7 +149,9 @@ body{
     pointer-events: none;
 }
 .div-box form .inputBox-div input:valid ~ i,
-.div-box form .inputBox-div input:focus ~ i{
+.div-box form .inputBox-div input:focus ~ i,
+.reg-data-div form .reg-data-input input:valid ~ i,
+.reg-data-div form .reg-data-input input:focus ~ i{
     height: 44px;
 }
 .div-box form .forgetPassSignUp{
@@ -178,4 +182,111 @@ body{
 }
 .div-box form input[type="submit"]:active{
     opacity: 0.8;
+}
+
+.reg-data-div{
+    position: relative;
+    width: 500px;
+    height: 800px;
+    background-color: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.reg-data-div::before{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 800px;
+    background: linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+}
+.reg-data-div::after{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 800px;
+    background: linear-gradient(0deg, transparent, transparent, #45f3ff, #45f3ff, #45f3ff);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -3s;
+}
+
+.borderline-signUp::before{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 380px;
+    height: 620px;
+    background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -1.5s;
+}
+.borderline-signUp::after{
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 400px;
+    height: 800px;
+    background: linear-gradient(0deg, transparent, transparent, #ff2770, #ff2770, #ff2770);
+    z-index: 1;
+    transform-origin: bottom right;
+    animation: animate 6s linear infinite;
+    animation-delay: -4.5s;
+}
+.reg-data-div form input[type="submit"]{
+    border: none;
+    outline: none;
+    padding: 9px 25px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
+    border-radius: 4px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 10px;
+}
+.reg-data-div form input[type="submit"]:active{
+    opacity: 0.8;
+}
+/* input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 3px;
+    background-color: #2c2c2c;
+    color: #ffffff;
+    border: none;
+    border-bottom: 2px solid #555;
+    font-size: 16px;
+}
+.reg-data-input label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #aaa;
+    font-size: 1em;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+.reg-data-input input:focus ~ label,
+.reg-data-input input:valid ~ label{
+    transform: translateY(-64px);
+    font-size: 0.75em;
+    color: #fff;
+} */
+label{
+    font-size: 1em;
+    font-weight: 500;
+    color: #8f8f8f;
 }
