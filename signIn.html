@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sign In</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="signIn.css">
+    </head>
+    <body>
+        <div id="app">
+            <div class="login-container">
+                <div class="circuit-bg"></div>
+                <div class="login-card">
+                    <h1 class="welcome-title">Welcome Back</h1>
+                    <p class="welcome-subtitle">
+                        Don't have an account yet? <a href="signUp.html" class="signup-link">Sign up</a>
+                    </p>
+                    
+                    <div class="role-container">
+                        <h2>Select Your Role</h2>
+                        <div class="role-buttons">
+                            <button class="role-button">Attendee</button>
+                            <button class="role-button">Organizer</button>
+                            <button class="role-button">Admin</button>
+                        </div>
+                        <div id="selectedRole"></div>
+                    </div>
+
+                    <form class="login-form" id="loginForm">
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" placeholder="email address" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <div class="input-wrapper">
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" placeholder="Password" required>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="login-btn">
+                            <span>Login</span>
+                            <div class="btn-loader"></div>
+                        </button>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>OR</span>
+                    </div>
+                    
+                    <div class="social-login">
+                        <button class="social-btn apple-btn">
+                            <i class="fab fa-apple"></i>
+                        </button>
+                        <button class="social-btn google-btn">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button class="social-btn twitter-btn">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="module" src="signIn.js"></script>
+    </body>
+</html>

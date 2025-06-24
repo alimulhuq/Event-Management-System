@@ -1,0 +1,363 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --primary-bg: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --input-bg: #2a2a2a;
+    --text-primary: #ffffff;
+    --text-secondary: #888888;
+    --accent-blue: #1e90ff;
+    --accent-blue-hover: #4169e1;
+    --border-color: #333333;
+    --success-color: #00ff88;
+    --error-color: #ff4757;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden;
+}
+.role-container{
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 30px 20px;
+}
+.role-container h2{
+    font-size: 35px;
+    color: #888888;
+    text-align: center;
+}
+.role-buttons {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.role-button{
+    position: relative;
+    width: 100%;
+    border: none;
+    padding: 15px;
+    border-radius: 40px;
+    font-size: 15px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-hover));;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 16px rgba(30, 144, 255, 0.3);
+}
+.role-button.selected {
+    background: #00b894;
+    color: #fff;
+    font-weight: bold;
+}
+#selectedRole {
+    margin-top: 30px;
+    font-size: 18px;
+    color: #00cec9;
+}
+.login-container {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.circuit-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(30, 144, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(30, 144, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(30, 144, 255, 0.05) 0%, transparent 50%);
+}
+.circuit-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        linear-gradient(90deg, rgba(30, 144, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(rgba(30, 144, 255, 0.1) 1px, transparent 1px);
+    background-size: 100px 100px;
+    animation: circuitMove 20s linear infinite;
+}
+.circuit-bg::after {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    right: 50px;
+    bottom: 50px;
+    border: 1px solid rgba(30, 144, 255, 0.2);
+    border-radius: 20px;
+    animation: borderPulse 3s ease-in-out infinite;
+}
+@keyframes circuitMove {
+    0% { 
+        transform: translate(0, 0); 
+    }
+    100% { 
+        transform: translate(100px, 100px); 
+    }
+}
+@keyframes borderPulse {
+    0%, 100% { 
+        opacity: 0.2; 
+    }
+    50% { 
+        opacity: 0.5; 
+    }
+}
+.login-card {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 48px 40px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: cardSlideIn 0.8s ease-out;
+}
+@keyframes cardSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+.welcome-title {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.welcome-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    font-size: 14px;
+}
+.signup-link {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.signup-link:hover {
+    color: var(--accent-blue-hover);
+}
+.login-form {
+    margin-bottom: 32px;
+}
+.input-group {
+    margin-bottom: 20px;
+}
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input-icon {
+    position: absolute;
+    left: 16px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    z-index: 2;
+    transition: color 0.3s ease;
+}
+.input-wrapper input {
+    width: 100%;
+    padding: 16px 16px 16px 48px;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+.input-wrapper input::placeholder {
+    color: var(--text-secondary);
+}
+.input-wrapper input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.1);
+    background: rgba(42, 42, 42, 0.8);
+}
+.input-wrapper input:focus + .input-icon,
+.input-wrapper:hover .input-icon {
+    color: var(--accent-blue);
+}
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-hover));
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(30, 144, 255, 0.3);
+}
+.login-btn:hover, .role-button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(30, 144, 255, 0.4);
+}
+.login-btn:active .role-button:active{
+    transform: translateY(0);
+}
+.login-btn.loading {
+    pointer-events: none;
+}
+.login-btn.loading span {
+    opacity: 0;
+}
+.btn-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.login-btn.loading .btn-loader {
+    opacity: 1;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { 
+        transform: translate(-50%, -50%) rotate(0deg); 
+    }
+    100% { 
+        transform: translate(-50%, -50%) rotate(360deg); 
+    }
+}
+.divider {
+    text-align: center;
+    margin: 32px 0;
+    position: relative;
+}
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-color);
+}
+.divider span {
+    background: var(--card-bg);
+    padding: 0 16px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    position: relative;
+    z-index: 1;
+}
+.social-login {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+.social-btn {
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.social-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-blue);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.apple-btn:hover {
+    background: #000;
+    color: white;
+}
+.google-btn:hover {
+    background: #4285f4;
+    color: white;
+    border-color: #4285f4;
+}
+.twitter-btn:hover {
+    background: #1da1f2;
+    color: white;
+    border-color: #1da1f2;
+}
+/* Responsive Design */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 32px 24px;
+        margin: 20px;
+        border-radius: 20px;
+    }
+    
+    .welcome-title {
+        font-size: 28px;
+    }
+    
+    .circuit-bg::after {
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+    }
+}
+/* Success/Error States */
+.input-wrapper.success input {
+    border-color: var(--success-color);
+    box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+}
+.input-wrapper.error input {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.1);
+}
+.input-wrapper.success .input-icon {
+    color: var(--success-color);
+}
+.input-wrapper.error .input-icon {
+    color: var(--error-color);
+}
