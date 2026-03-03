@@ -1,2 +1,6 @@
 # ignoring all node module
 node_modules/
+
+.env
+
+.gitingnore
