@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Event - EventPro</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.25);
+            z-index: -1;
+        }
+        .form-container {
+            max-width: 540px;
+            margin: 80px auto;
+            padding: 2.5rem;
+            background: rgba(255,255,255,0.96);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.6rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+        .form-btn {
+            background: linear-gradient(135deg, #3b82f6, #7c3aed);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1.05rem;
+        }
+        .form-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+        }
+        .form-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #dc2626;
+            font-size: 0.95rem;
+            margin: 0.6rem 0;
+            text-align: center;
+            display: none;
+        }
+        #total_cost {
+            display: block;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin: 1.2rem 0;
+            padding: 12px;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+        .note {
+            font-size: 0.9rem;
+            color: #64748b;
+            text-align: center;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">📅</span>
+                <span class="logo-text">EventPro</span>
+            </a>
+            <div class="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <div id="auth-section"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2 class="form-title">Update Event Booking</h2>
+
+        <div id="form-error" class="error"></div>
+
+        <form id="update-event-form">
+            <div class="form-group">
+                <label for="event_type">Event Type *</label>
+                <select id="event_type" name="event_type" required>
+                    <option value="">Select Type</option>
+                    <option value="Wedding">Wedding</option>
+                    <option value="Birthday">Birthday</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Anniversary">Anniversary</option>
+                    <option value="Corporate">Corporate Event</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="event_address">Event Address *</label>
+                <input type="text" id="event_address" name="event_address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="event_date">Event Date & Time *</label>
+                <input type="text" id="event_date" name="event_date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guest_number">Number of Guests *</label>
+                <input type="number" id="guest_number" name="guest_number" min="10" required>
+            </div>
+
+            <div class="form-group">
+                <label for="food_type">Food Preference *</label>
+                <select id="food_type" name="food_type" required>
+                    <option value="">Select Food Type</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Non-Vegetarian">Non-Vegetarian</option>
+                    <option value="Both">Both</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="food_description">Food Description / Special Requests</label>
+                <textarea id="food_description" name="food_description" placeholder="e.g., 200 chicken biryani, no beef..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="sound_system">Sound System</label>
+                <select id="sound_system" name="sound_system">
+                    <option value="None">None</option>
+                    <option value="Basic">Basic</option>
+                    <option value="Premium">Premium</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="decoration_description">Decoration / Theme Description</label>
+                <textarea id="decoration_description" name="decoration_description" placeholder="e.g., floral arch, fairy lights..."></textarea>
+            </div>
+
+            <div id="total_cost">Estimated Total: $0.00</div>
+
+            <button type="submit" class="form-btn" id="submit-btn">Update Booking</button>
+
+            <p class="note">Note: Significant changes to cost may require additional payment or trigger a refund process.</p>
+        </form>
+    </div>
+
+    <!-- Payment popup (shown only if cost increases) -->
+    <div class="popup" id="paymentPopup" style="display:none;">
+        <div class="popup-content">
+            <h3>Additional Payment Required</h3>
+            <p id="additional-amount"></p>
+            <button class="popup-btn pay-now" onclick="proceedToPayment()">Pay Now</button>
+            <button class="popup-btn cancel" onclick="closePopup('paymentPopup')">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <span class="logo-icon">📅</span>
+                    <span class="logo-text">EventPro</span>
+                </a>
+                <p>Professional event management services creating memorable experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#services">Services</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-column">
+                    <div class="student-info">
+                        <p><strong>Name:</strong> MD. Alimul Huq</p>
+                        <p><strong>ID:</strong> 23303249</p>
+                        <p><strong>Programme:</strong> BCSE</p>
+                        <p><strong>Course Code:</strong> 434</p>
+                        <p><strong>Course Name:</strong> Database Management System</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 EventPro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('booking_id') || urlParams.get('event_id');
+
+        const errorDiv   = document.getElementById('form-error');
+        const submitBtn  = document.getElementById('submit-btn');
+        const form       = document.getElementById('update-event-form');
+
+        let originalTotal = 0;
+
+        // ────────────────────────────────────────────────
+        //  Load existing booking data
+        // ────────────────────────────────────────────────
+        async function loadBooking() {
+            if (!bookingId) {
+                window.location.href = 'view_events.html';
+                return;
+            }
+
+            try {
+                const booking = await apiRequest(`/api/bookings/${bookingId}`, {
+                    headers: getAuthHeader()
+                });
+
+                if (!booking || !booking._id) {
+                    throw new Error("Booking not found");
+                }
+
+                // Check if already fully paid (optional strict policy)
+                if (booking.payment_status === 'Paid') {
+                    errorDiv.textContent = "This booking is fully paid and cannot be modified.";
+                    errorDiv.style.display = 'block';
+                    form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+                    return;
+                }
+
+                // Fill form
+                document.getElementById('event_type').value              = booking.event_type || '';
+                document.getElementById('event_address').value           = booking.event_address || '';
+                document.getElementById('guest_number').value            = booking.guest_number || '';
+                document.getElementById('food_type').value               = booking.food_type || '';
+                document.getElementById('food_description').value        = booking.food_description || '';
+                document.getElementById('sound_system').value            = booking.sound_system || 'None';
+                document.getElementById('decoration_description').value  = booking.decoration_description || '';
+
+                // Set date (Flatpickr will handle format)
+                if (booking.event_date) {
+                    flatpickrInstance.setDate(booking.event_date);
+                }
+
+                originalTotal = Number(booking.total_cost || 0);
+                calculateTotal(); // will update display
+
+            } catch (err) {
+                errorDiv.textContent = err.message || "Failed to load booking data.";
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // ────────────────────────────────────────────────
+        //  Flatpickr setup
+        // ────────────────────────────────────────────────
+        const flatpickrInstance = flatpickr("#event_date", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today",
+            time_24hr: false
+        });
+
+        // ────────────────────────────────────────────────
+        //  Cost calculation (should match bookingEvent.html)
+        // ────────────────────────────────────────────────
+        function calculateTotal() {
+            const guests   = parseInt(document.getElementById('guest_number').value) || 0;
+            const food     = document.getElementById('food_type').value;
+            const sound    = document.getElementById('sound_system').value;
+            const decor    = document.getElementById('decoration_description').value.trim();
+
+            const base     = 8;
+            const foodCost = { 'Vegetarian':10, 'Non-Vegetarian':16, 'Both':13 }[food] || 0;
+            const soundCost= { 'None':0, 'Basic':600, 'Premium':1400 }[sound] || 0;
+            const decorCost= decor.length > 0 ? 450 : 0;
+
+            const total = guests * (base + foodCost) + soundCost + decorCost;
+
+            document.getElementById('total_cost').textContent =
+                `Estimated Total: $${total.toFixed(2)}`;
+
+            return total;
+        }
+
+        // Recalculate on change
+        ['guest_number','food_type','sound_system','decoration_description']
+            .forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', calculateTotal);
+            });
+
+        // ────────────────────────────────────────────────
+        //  Form submission – PUT update
+        // ────────────────────────────────────────────────
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Updating...";
+
+            try {
+                const formData = Object.fromEntries(new FormData(form));
+                const newTotal = calculateTotal();
+
+                formData.event_date = new Date(formData.event_date).toISOString();
+                formData.total_cost = newTotal;
+
+                const response = await apiRequest(`/api/bookings/${bookingId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response || !response._id) {
+                    throw new Error(response?.message || "Update failed");
+                }
+
+                const diff = newTotal - originalTotal;
+
+                if (diff > 0) {
+                    document.getElementById('additional-amount').textContent =
+                        `Please pay an additional $${diff.toFixed(2)} to complete the update.`;
+                    document.getElementById('paymentPopup').style.display = 'flex';
+                    window.pendingDiff = diff;
+                } else {
+                    alert("Event updated successfully!");
+                    window.location.href = 'view_events.html';
+                }
+
+            } catch (err) {
+                errorDiv.textContent = err.message || "Could not update booking.";
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Update Booking";
+            }
+        });
+
+        // ────────────────────────────────────────────────
+        //  Payment popup actions
+        // ────────────────────────────────────────────────
+        function proceedToPayment() {
+            document.getElementById('paymentPopup').style.display = 'none';
+            window.location.href = `payment.html?booking_id=${bookingId}`;
+        }
+
+        function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function getAuthHeader() {
+            const token = localStorage.getItem('token');
+            return token ? { 'Authorization': `Bearer ${token}` } : {};
+        }
+
+        // Mobile menu
+        document.querySelector('.mobile-menu-toggle')?.addEventListener('click', () => {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // ────────────────────────────────────────────────
+        //  Init
+        // ────────────────────────────────────────────────
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBooking();
+            updateAuthSection?.();
+        });
+    </script>
+
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>

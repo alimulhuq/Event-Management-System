@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt - EventPro</title>
+    <link rel="stylesheet" href="css/index.css">
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jsPDF-AutoTable (for nice tables) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.3/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #1e293b;
+        }
+        .receipt-container {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+            max-width: 500px;
+            width: 90%;
+        }
+        h1 { font-family: 'Playfair Display', serif; color: #1e40af; }
+        .status { font-weight: bold; margin: 1rem 0; }
+        .loading { color: #64748b; }
+        .error   { color: #dc2626; }
+    </style>
+</head>
+<body>
+
+    <div class="receipt-container">
+        <h1>Generating Receipt...</h1>
+        <p id="status" class="status loading">Please wait...</p>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.3/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('booking_id') || urlParams.get('event_id');
+
+        if (!bookingId) {
+            alert("No booking ID provided.");
+            window.location.href = "view_events.html";
+        }
+
+        async function generateAndDownloadReceipt() {
+            const statusEl = document.getElementById('status');
+
+            try {
+                statusEl.textContent = "Fetching booking details...";
+                statusEl.className = "status loading";
+
+                // 1. Get booking details
+                const booking = await apiRequest(`/api/bookings/${bookingId}`, {
+                    headers: getAuthHeader()
+                });
+
+                if (!booking || !booking._id) {
+                    throw new Error("Booking not found or access denied.");
+                }
+
+                // 2. Get payment history (optional - adjust endpoint as per your backend)
+                let payments = [];
+                try {
+                    payments = await apiRequest(`/api/payments?booking_id=${bookingId}`, {
+                        headers: getAuthHeader()
+                    }) || [];
+                } catch (e) {
+                    console.warn("Payments fetch failed", e);
+                }
+
+                const totalPaid = payments.reduce((sum, p) => sum + (p.amount || 0), 0);
+                const remaining = Number(booking.total_cost || 0) - totalPaid;
+
+                statusEl.textContent = "Creating PDF...";
+                
+                const doc = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                // Header
+                doc.setFillColor(30, 64, 175); // blue
+                doc.rect(0, 0, 210, 45, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(28);
+                doc.setFont("helvetica", "bold");
+                doc.text("EventPro", 105, 22, { align: "center" });
+
+                doc.setFontSize(16);
+                doc.text("Booking Receipt", 105, 34, { align: "center" });
+
+                // Reset
+                doc.setTextColor(30, 41, 59);
+                doc.setFontSize(12);
+                doc.setFont("helvetica", "normal");
+
+                let y = 55;
+
+                // Customer & Booking Info
+                doc.setFont("helvetica", "bold");
+                doc.text("Customer Information", 20, y);
+                doc.setFont("helvetica", "normal");
+                y += 8;
+                doc.text(`Name: ${booking.user?.name || localStorage.getItem('user_name') || '—'}`, 20, y); y += 7;
+                doc.text(`Email: ${booking.user?.email || '—'}`, 20, y); y += 7;
+                doc.text(`Phone: ${booking.user?.phone || '—'}`, 20, y); y += 12;
+
+                doc.setFont("helvetica", "bold");
+                doc.text("Event Details", 20, y);
+                doc.setFont("helvetica", "normal");
+                y += 8;
+                doc.text(`Type: ${booking.event_type || '—'}`, 20, y); y += 7;
+                doc.text(`Address: ${booking.event_address || '—'}`, 20, y); y += 7;
+                doc.text(`Date & Time: ${new Date(booking.event_date).toLocaleString('en-US', {
+                    dateStyle: "medium", timeStyle: "short"
+                })}`, 20, y); y += 7;
+                doc.text(`Guests: ${booking.guest_number || '—'}`, 20, y); y += 7;
+                doc.text(`Food: ${booking.food_type || '—'}`, 20, y); y += 7;
+                doc.text(`Sound System: ${booking.sound_system || 'None'}`, 20, y); y += 12;
+
+                // Cost Summary
+                doc.setFont("helvetica", "bold");
+                doc.text("Financial Summary", 20, y);
+                doc.setFont("helvetica", "normal");
+                y += 8;
+
+                // Use autoTable for clean layout
+                doc.autoTable({
+                    startY: y,
+                    margin: { left: 20, right: 20 },
+                    head: [['Description', 'Amount (USD)']],
+                    body: [
+                        ['Total Event Cost', `$${Number(booking.total_cost || 0).toFixed(2)}`],
+                        ...payments.map(p => [
+                            `Payment (${p.payment_method || '—'}) - ${new Date(p.createdAt || p.payment_date || Date.now()).toLocaleDateString()}`,
+                            `$${Number(p.amount || 0).toFixed(2)}`
+                        ]),
+                        ['Total Paid', `$${totalPaid.toFixed(2)}`],
+                        ['Remaining Balance', `$${remaining.toFixed(2)}`]
+                    ],
+                    theme: 'grid',
+                    headStyles: { fillColor: [59, 130, 246], textColor: 255 },
+                    styles: { fontSize: 10, cellPadding: 4 },
+                    columnStyles: { 0: { cellWidth: 110 }, 1: { cellWidth: 60, halign: 'right' } }
+                });
+
+                y = doc.lastAutoTable.finalY + 15;
+
+                // Footer message
+                doc.setFontSize(11);
+                doc.setTextColor(100);
+                doc.text("Thank you for choosing EventPro!", 105, y, { align: "center" });
+                y += 8;
+                doc.text("support@eventpro.com | +1 (555) 123-4567", 105, y, { align: "center" });
+                y += 12;
+                doc.text(`Receipt generated on ${new Date().toLocaleDateString()}`, 105, y, { align: "center" });
+
+                // Save & redirect
+                doc.save(`EventPro_Receipt_${bookingId.slice(-8)}.pdf`);
+
+                statusEl.textContent = "Receipt downloaded! Redirecting...";
+                statusEl.className = "status success";
+
+                setTimeout(() => {
+                    window.location.href = "view_events.html";
+                }, 1800);
+
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = err.message || "Failed to generate receipt.";
+                statusEl.className = "status error";
+            }
+        }
+
+        function getAuthHeader() {
+            const token = localStorage.getItem('token');
+            return token ? { 'Authorization': `Bearer ${token}` } : {};
+        }
+
+        // Run on load
+        generateAndDownloadReceipt();
+    </script>
+
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>

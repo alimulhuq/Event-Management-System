@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make Payment - EventPro</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .form-container {
+            max-width: 520px;
+            margin: 80px auto;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+        }
+        .form-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+        .due-box {
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.8rem;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #065f46;
+        }
+        .form-group {
+            margin-bottom: 1.6rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .form-btn {
+            background: linear-gradient(135deg, #3b82f6, #7c3aed);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1.05rem;
+        }
+        .form-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59,130,246,0.4);
+        }
+        .form-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #dc2626;
+            font-size: 0.95rem;
+            text-align: center;
+            margin: 0.8rem 0;
+            display: none;
+        }
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        /* Popup */
+        .popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .popup-content {
+            background: white;
+            padding: 2rem 1.8rem;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+        .popup-btn {
+            margin-top: 1.2rem;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            background: #2563eb;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-icon">📅</span>
+                <span class="logo-text">EventPro</span>
+            </a>
+            <div class="mobile-menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <div id="auth-section"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2 class="form-title">Complete Payment</h2>
+
+        <div id="due-amount" class="due-box">Loading due amount...</div>
+
+        <div id="form-error" class="error"></div>
+
+        <form id="payment-form">
+            <div class="form-group">
+                <label for="payment_method">Payment Method *</label>
+                <select id="payment_method" name="payment_method" required>
+                    <option value="">Choose method</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Bank Transfer">Bank Transfer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="payment_amount">Amount to Pay ($)*</label>
+                <input type="number" id="payment_amount" name="payment_amount" 
+                       min="0.01" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="account_number">Card / Account / Transaction Reference</label>
+                <input type="text" id="account_number" name="account_number" 
+                       placeholder="XXXX-XXXX-XXXX-XXXX or TRX ref" required>
+            </div>
+
+            <button type="submit" class="form-btn" id="submit-btn">Confirm Payment</button>
+        </form>
+
+        <a href="view_events.html" class="back-btn">← Back to My Events</a>
+    </div>
+
+    <!-- Success Popup -->
+    <div class="popup" id="successPopup">
+        <div class="popup-content">
+            <h3>Payment Successful!</h3>
+            <p id="successMessage">Your payment has been recorded. Thank you!</p>
+            <button class="popup-btn" onclick="closeSuccessPopup()">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <span class="logo-icon">📅</span>
+                    <span class="logo-text">EventPro</span>
+                </a>
+                <p>Professional event management services creating memorable experiences.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Quick Links</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#services">Services</a>
+                    <a href="#portfolio">Portfolio</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-column">
+                    <div class="student-info">
+                        <p><strong>Name:</strong> MD. Alimul Huq</p>
+                        <p><strong>ID:</strong> 23303249</p>
+                        <p><strong>Programme:</strong> BCSE</p>
+                        <p><strong>Course Code:</strong> 434</p>
+                        <p><strong>Course Name:</strong> Database Management System</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 EventPro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('booking_id') || urlParams.get('event_id'); // support both naming styles
+
+        const errorDiv    = document.getElementById('form-error');
+        const dueDiv      = document.getElementById('due-amount');
+        const amountInput = document.getElementById('payment_amount');
+        const submitBtn   = document.getElementById('submit-btn');
+        const form        = document.getElementById('payment-form');
+
+        let maxDue = 0;
+
+        async function loadBookingInfo() {
+            if (!bookingId) {
+                window.location.href = 'view_events.html';
+                return;
+            }
+
+            try {
+                const booking = await apiRequest(`/api/bookings/${bookingId}`, {
+                    headers: getAuthHeader()
+                });
+
+                if (!booking || !booking._id) {
+                    throw new Error("Booking not found");
+                }
+
+                const paid   = booking.total_paid || 0;
+                const total  = booking.total_cost || 0;
+                const due    = total - paid;
+
+                maxDue = due;
+
+                dueDiv.innerHTML = `
+                    Due Amount: <strong>$${due.toFixed(2)}</strong><br>
+                    <small>Total: $${total.toFixed(2)} • Paid: $${paid.toFixed(2)}</small>
+                `;
+
+                amountInput.value = due.toFixed(2);
+                amountInput.max   = due;
+
+            } catch (err) {
+                dueDiv.innerHTML = "Could not load booking information";
+                errorDiv.textContent = err.message || "Failed to load due amount";
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Processing...";
+
+            try {
+                const data = Object.fromEntries(new FormData(form));
+                const amount = parseFloat(data.payment_amount);
+
+                if (isNaN(amount) || amount <= 0) {
+                    throw new Error("Please enter a valid amount");
+                }
+                if (amount > maxDue + 0.01) { // small tolerance
+                    throw new Error(`Amount cannot exceed due ($${maxDue.toFixed(2)})`);
+                }
+
+                data.booking_id = bookingId;   // standardize field name
+                data.amount     = amount;      // ensure number
+
+                const result = await apiRequest('/api/payments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...getAuthHeader()
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!result || !result._id) {
+                    throw new Error(result?.message || "Payment failed");
+                }
+
+                // Success
+                document.getElementById('successMessage').textContent = 
+                    `$${amount.toFixed(2)} payment recorded successfully!`;
+                
+                document.getElementById('successPopup').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+
+            } catch (err) {
+                errorDiv.textContent = err.message || "Payment could not be processed";
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirm Payment";
+            }
+        });
+
+        function getAuthHeader() {
+            const token = localStorage.getItem('token');
+            return token ? { 'Authorization': `Bearer ${token}` } : {};
+        }
+
+        function closeSuccessPopup() {
+            document.getElementById('successPopup').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            window.location.href = 'view_events.html';
+        }
+
+        // Close popup on outside click
+        window.addEventListener('click', e => {
+            if (e.target.id === 'successPopup') {
+                closeSuccessPopup();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookingInfo();
+            updateAuthSection?.(); // from auth.js
+        });
+    </script>
+
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+</body>
+</html>
